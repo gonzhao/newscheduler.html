@@ -211,10 +211,10 @@
     // 18: Notes
 
     var headers = {
-      'QB-Realm-Hostname': 'https://builderprogram-gcarrasco8152.quickbase.com',
-      'User-Agent': '{User-Agent}',
-      'Authorization': 'QB-USER-TOKEN b8s6k4_qtgt_0_bmhwy65c8k8zjie6tq6ed8826dm',
-      'Content-Type': 'application/json'
+      'QB-Realm-Hostname': '',
+      'User-Agent': '',
+      'Authorization': '',
+      'Content-Type': ''
     };
 
     var body = {
@@ -280,14 +280,14 @@
     // Function to delete a record by its ID in Quickbase
     
     var headers = {
-        'QB-Realm-Hostname': 'builderprogram-gcarrasco8152.quickbase.com',
-        'User-Agent': '{User-Agent}',
-        'Authorization': 'QB-USER-TOKEN b8s6k4_qtgt_0_bmhwy65c8k8zjie6tq6ed8826dm',
-        'Content-Type': 'application/json'
+        'QB-Realm-Hostname': '',
+        'User-Agent': '',
+        'Authorization': '',
+        'Content-Type': ''
     };
 
     var body = {
-        "from": "btpwea66k",
+        "from": "",
         "where": `{3.EX.${recordID}}`
     };
 
@@ -362,7 +362,7 @@
     //This will need update when we move the scheduler
     //needs to point to correct builder, table and recordID 
     //that we want to edit/update
-    var editURL = `https://builderprogram-gcarrasco8152.quickbase.com/db/btpwea66k?a=er&rid=${RecordID}`;
+    var editURL = `https://builderprogram-xxxxxxxxxxxxxx.quickbase.com/db/?a=er&rid=${RecordID}`;
     return editURL;
   }
   
@@ -389,22 +389,6 @@
       }
     });
   }
-  
-  /*
-  function filterTicketsByEmail(tickets, email) {
-    // Filter tickets based on the people who clicked
-    return tickets.filter(ticket => {
-      switch (email) {
-        //Add email here
-        case 'gon@hotmail.com':
-          break;
-        case 'test@hotmail.com':
-          break;
-      }
-    });
-  }
-  */
-
   //#endregion
   
   //#region InitCalendar
@@ -443,10 +427,10 @@
 
       //API Call To update data
       var headers = {
-        'QB-Realm-Hostname': 'builderprogram-gcarrasco8152.quickbase.com',
-        'User-Agent': '{User-Agent}',
-        'Authorization': 'QB-USER-TOKEN b8s6k4_qtgt_0_bmhwy65c8k8zjie6tq6ed8826dm' ,
-        'Content-Type': 'application/json'
+        'QB-Realm-Hostname': '',
+        'User-Agent': '',
+        'Authorization': '' ,
+        'Content-Type': ''
       };
 
       // Prepare data to make API call and update QB data  
@@ -518,7 +502,7 @@
             // TODO
             //This will need to be handle when change owner/table
             window.open(
-              'https://builderprogram-gcarrasco8152.quickbase.com/db/btpwea66k/form?a=nwr&originalQid=td&originalqid=td&page=1', '_blank');
+              'https://builderprogram-xxxxxxxxxxx.quickbase.com/db/xxxxxxx/form?a=nwr&originalQid=td&originalqid=td&page=1', '_blank');
           }
         }
       },
@@ -653,7 +637,7 @@
         var recordID = ticket.RecordID || this.parentElement.extendedProps.RecordID;
 
         // Construct the edit URL
-        var editURL = `https://builderprogram-gcarrasco8152.quickbase.com/db/btpwea66k?a=er&rid=${recordID}`;
+        var editURL = `https://builderprogram-xxxxxxxxx.quickbase.com/db/xxxxxxxxx?a=er&rid=${recordID}`;
 
         // Open the edit URL in a new tab
         window.open(editURL, '_blank');
