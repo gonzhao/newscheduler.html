@@ -290,9 +290,9 @@
   //TODO
   function QB_deleteRecord(recordID) {
     var headers = {
-        'QB-Realm-Hostname': 'builderprogram-gcarrasco8152.quickbase.com',
+        'QB-Realm-Hostname': 'xxxx-xxxxxx.quickbase.com',
         'User-Agent': '{User-Agent}',
-        'Authorization': 'QB-USER-TOKEN b8s6k4_qtgt_0_bmhwy65c8k8zjie6tq6ed8826dm',
+        'Authorization': 'QB-USER-TOKEN xxxxxxxxx',
         'Content-Type': 'application/json'
     };
 
