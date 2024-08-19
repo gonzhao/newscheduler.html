@@ -229,9 +229,9 @@
     // 7: Name, 8: phone number, 11: start date,
     // 13: end date, 15: start time, 16: end time, 18: Notes
     var headers = {
-        'QB-Realm-Hostname': 'https://builderprogram-gcarrasco8152.quickbase.com',
+        'QB-Realm-Hostname': 'https://xxxxxxxx.com',
         'User-Agent': '{User-Agent}',
-        'Authorization': 'QB-USER-TOKEN b8s6k4_qtgt_0_bmhwy65c8k8zjie6tq6ed8826dm',
+        'Authorization': 'QB-USER-TOKEN xxxxxxxx',
         'Content-Type': 'application/json'
         };
 
@@ -417,9 +417,9 @@
 
       //API Call To update data
       var headers = {
-          'QB-Realm-Hostname': 'builderprogram-gcarrasco8152.quickbase.com',
+          'QB-Realm-Hostname': '',
           'User-Agent': '{User-Agent}',
-          'Authorization': 'QB-USER-TOKEN b8s6k4_qtgt_0_bmhwy65c8k8zjie6tq6ed8826dm' ,
+          'Authorization': 'QB-USER-TOKEN xxxxxxxxxxxxxx' ,
           'Content-Type': 'application/json'
       };
 
