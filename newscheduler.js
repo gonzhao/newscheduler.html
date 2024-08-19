@@ -371,7 +371,7 @@
     //This will need update when we move the scheduler
     //needs to point to correct builder, table and recordID 
     //that we want to edit/update
-    var editURL = `https://builderprogram-gcarrasco8152.quickbase.com/db/btpwea66k?a=er&rid=${RecordID}`;
+    var editURL = `https://xxxxxxxx-xxxxxxxxxxxx.quickbase.com/db/btpwea66k?a=er&rid=${RecordID}`;
     return editURL;
   }
   // Function to open the QuickBase edit page in a new tab
@@ -495,7 +495,7 @@
             //TODO
             //This will need to be handle when change owner/table
             window.open(
-              'https://builderprogram-gcarrasco8152.quickbase.com/db/btpwea66k/form?a=nwr&originalQid=td&originalqid=td&page=1', '_blank');
+              'https://xxxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxx.quickbase.com/db/btpwea66k/form?a=nwr&originalQid=td&originalqid=td&page=1', '_blank');
           }
         }
       },
@@ -659,7 +659,7 @@
       var recordID = ticket.RecordID || this.parentElement.extendedProps.RecordID;
 
       // Construct the edit URL
-      var editURL = `https://builderprogram-gcarrasco8152.quickbase.com/db/btpwea66k?a=er&rid=${recordID}`;
+      var editURL = `https://xxxxxxxxxxxxxxxxx-xxxxxxxxxxxxx.quickbase.com/db/btpwea66k?a=er&rid=${recordID}`;
 
       // Open the edit URL in a new tab
       window.open(editURL, '_blank');
