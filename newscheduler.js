@@ -43,13 +43,13 @@
     padding: 3px; 
     font-size: 17px;
   }
-
+  /*Left column with options */
   #external-events {
     position: fixed;
     left: 20px;
     top: 20px;
-    width: 150px;
-    height: 400px;
+    width: 110px;
+    height: 200px;
     padding: 0 10px;
     border: 1px solid #ccc;
     background: #eee;
@@ -95,10 +95,14 @@
   .fade-out {
     opacity: 0;
   }
+
   /*Dark Theme Settings*/
   #toggle-darktheme-button {
     margin: 0 auto;
     display: block;
+    /* Adjusts the size of the button */
+    padding: 8px 10px;    
+    font-size: 14px;    
   }
 
   .dark-theme {
@@ -129,41 +133,6 @@
     /* Add other styles as needed */
   }
 
-  .modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #ccc;
-    z-index: 1;
-    /*Modal Feature Request*/
-  }
-
-  #feature-request-modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 20px;
-    z-index: 2;
-  }
-
-  #feature-request-modal-background {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1;
-  }
-
   /**/
   .past-event {
     background-color: #4a4a4a; /* Set your desired background color */
@@ -180,119 +149,140 @@
 
   <script>
 
-  //This Script controls all logic to display Tickets from QB to the Scheduler
-
-  //TODO: Some lines in this script will need to be changed/updated once the 
-  //app its being used since there is ownership/passwords and specific data/tables
-  //that is link with the user usage owerniship in Quickbase.
-    
-  //#region API QB_Query records)
-  //Prepare API call to go over the records and pull information for my table
- 
-  //#region Get Role to authennticate.
-
-     // Function to extract the role from the URL parameters
-     function getRoleFromURL() {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get('role');
-    }
-
-    // Function to print the role information
-    function ProcessRoleInformation() {
-        // Get the role from the URL
-        const role = getRoleFromURL();
-
-        // Print the role information
-        console.log("Role:", role);
-
-        //check for Authorized Roles
-        if (role === 'Administrator') {
-            //if you Authorized, DO the API call
-            QueryForData_APICall();
-        } else {
-            alert("Role: " + role + " is not Authorized.");
-            console.log("Role: " + role + " Is not Authorized.");
-        }
-        
-    }
-
-    //Call the function when the page loads
-    document.addEventListener('DOMContentLoaded', function() {
-        // Print role information when the page loads
-        ProcessRoleInformation();
-    });
-
-  //#endregion
+  //This script controls all logic to display Tickets from QB to the Scheduler
   
+  // TODO: Some lines in this script will need to be changed/updated once the 
+  // app its being used since there is ownership/passwords and specific data/tables
+  // that is link with the user usage owerniship in Quickbase.
+  
+  function getRoleFromURL() {
+    // Extract and decode the role from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const encodedRole = urlParams.get('role');
+   
+    return encodedRole;
+  }
 
-  function QueryForData_APICall() {
-    // 7: Name, 8: phone number, 11: start date,
-    // 13: end date, 15: start time, 16: end time, 18: Notes
+  function getEmailFromURL() {
+    // Extract and decode the email from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const encodedEmail = urlParams.get('email');
+    
+    return encodedEmail;
+  }
+  
+  function ProcessRoleInformation() {
+    // Depending of the 'Role' status in the app 
+    // User will have access to use the Scheduler. 
+
+    const role = getRoleFromURL();
+    const email = getEmailFromURL();
+
+    // Debug test
+    console.log("Email:", email);
+    console.log("Role:", role);
+    
+    switch(role) {
+      case 'Administrator':
+      case 'Participant':
+      case 'Viewer':
+        QueryForData_API(role);
+        break;
+
+      default:
+        console.log("Role: " + role + " is not recognized.");
+      }
+    }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Call the function when the page loads  
+    // Print role information when the page loads
+    ProcessRoleInformation();
+  });
+
+  //#region API CALLS
+  function QueryForData_API(role) {
+    // 7: Name, 
+    // 8: phone number,
+    // 11: start date,
+    // 13: end date, 
+    // 15: start time, 
+    // 16: end time, 
+    // 18: Notes
+
     var headers = {
-        'QB-Realm-Hostname': 'https://xxxxxxxx.com',
-        'User-Agent': '{User-Agent}',
-        'Authorization': 'QB-USER-TOKEN xxxxxxxx',
-        'Content-Type': 'application/json'
-        };
+      'QB-Realm-Hostname': 'https://builderprogram-gcarrasco8152.quickbase.com',
+      'User-Agent': '{User-Agent}',
+      'Authorization': 'QB-USER-TOKEN b8s6k4_qtgt_0_bmhwy65c8k8zjie6tq6ed8826dm',
+      'Content-Type': 'application/json'
+    };
 
     var body = {
-        "from":"btpwea66k",
-        "select":[7,8,11,13,15,16,26,3,18],
-        "sortBy":[{"fieldId":7,"order":"ASC"}],
-        "groupBy":[{"fieldId":7,"grouping":"equal-values"}],
-        "options":{"skip":0,"top":0,"compareWithAppLocalTime":false}
+      "from":"btpwea66k",
+      "select":[7,8,11,13,15,16,26,3,18],
+      "sortBy":[{"fieldId":7,"order":"ASC"}],
+      "groupBy":[{"fieldId":7,"grouping":"equal-values"}],
+      "options":{"skip":0,"top":0,"compareWithAppLocalTime":false}
     }
 
     fetch('https://api.quickbase.com/v1/records/query', {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(body)
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(body)
     })
     .then(res => {
-        if (res.ok) {
-        // If the response is OK, parse the JSON response
-        return res.json().then(data => {
-        console.log("Raw Data: ", data); // Log the entire API response
-        return data;
-        });
+      if (res.ok) {
+      // If the response is OK, parse the JSON response
+      return res.json().then(data => {
+      // Debug. API response
+      //console.log("Raw Data: ", data); 
+      return data;
+      });
     }
     // If there's an error, parse the JSON error response and reject the promise
     return res.json().then(resBody => Promise.reject({ status: res.status, ...resBody }));
     })
     .then((data) => {
-        console.log(data); // Raw data from the API call
+      //console.log(data); // Raw data from the API call
 
-        // Parse the data into a ticket format
-        var tickets = data.data.map((record) => ({
-            Name: record[7].value,
-            PhoneNumber: record[8].value,
-            StartDate: record[11].value,
-            EndDate: record[13].value,
-            StartTime: record[15].value,
-            EndTime: record[16].value,
-            EventType: record[26].value,
-            RecordID: record[3].value,
-            Notes: record[18].value
-        }));
+      // Parse the data into a ticket format
+      var tickets = data.data.map((record) => ({
+        Name: record[7].value,
+        PhoneNumber: record[8].value,
+        StartDate: record[11].value,
+        EndDate: record[13].value,
+        StartTime: record[15].value,
+        EndTime: record[16].value,
+        // Filter var, trim white space to fix error
+        EventType: record[26].value.trim(), 
+        RecordID: record[3].value,
+        Notes: record[18].value
+      }));
 
-        // Debug Print Array of ticket data
-        console.log(tickets); 
-        
-        // Function to create the tickets
-        createEventDivs(tickets);
+      // Debug
+      console.log(tickets); 
+    
+      // Filter tickets based on the role
+      const filteredTickets = filterTicketsByEventType(tickets, role);
+
+      // Debug
+      console.log("Filtered Tickets: ", filteredTickets);
+
+      createEventDivs(filteredTickets);
+
+      // Function to create the tickets
+      // createEventDivs(tickets);
     })
     .catch(err => console.log(err))
   }
-  //#endregion
 
-  //#region API QB_deleteRecord 
-  // Function to delete a record by its ID in Quickbase
-  //TODO
-  function QB_deleteRecord(recordID) {
+  function QB_deleteRecord_API(recordID) {
+    // Function to delete a record by its ID in Quickbase
+    
     var headers = {
-        'QB-Realm-Hostname': 'xxxx-xxxxxx.quickbase.com',
+        'QB-Realm-Hostname': 'builderprogram-gcarrasco8152.quickbase.com',
         'User-Agent': '{User-Agent}',
-        'Authorization': 'QB-USER-TOKEN xxxxxxxxx',
+        'Authorization': 'QB-USER-TOKEN b8s6k4_qtgt_0_bmhwy65c8k8zjie6tq6ed8826dm',
         'Content-Type': 'application/json'
     };
 
@@ -302,9 +292,9 @@
     };
 
     fetch('https://api.quickbase.com/v1/records', {
-        method: 'DELETE',
-        headers: headers,
-        body: JSON.stringify(body)
+      method: 'DELETE',
+      headers: headers,
+      body: JSON.stringify(body)
     })
     .then(response => {
         if (response.ok) {
@@ -321,10 +311,11 @@
     });
   }
   //#endregion
-
+  
   //#region Functions
-  //This function will create te tickets
   function createEventDivs(tickets) {
+    // This function will create te tickets to add them in the Scheduler calendar.
+    
     var calendarEl = document.getElementById('calendar');
     
     // Loop through the 'tickets' array and create a div for each ticket
@@ -337,7 +328,7 @@
 
       var event = {
         title: ticket.Name,
-        start: startDate.toISOString(), // Convert to ISO format
+        start: startDate.toISOString(),
         end: endDate.toISOString(),
         
         allDay: false, 
@@ -356,10 +347,10 @@
       
       var eventDiv = document.createElement('div');
       eventDiv.classList.add(
-          'fc-event',
-          'fc-h-event',
-          'fc-daygrid-event',
-          'fc-daygrid-block-event'
+        'fc-event',
+        'fc-h-event',
+        'fc-daygrid-event',
+        'fc-daygrid-block-event'
       );
     });
   }
@@ -371,16 +362,54 @@
     //This will need update when we move the scheduler
     //needs to point to correct builder, table and recordID 
     //that we want to edit/update
-    var editURL = `https://xxxxxxxx-xxxxxxxxxxxx.quickbase.com/db/btpwea66k?a=er&rid=${RecordID}`;
+    var editURL = `https://builderprogram-gcarrasco8152.quickbase.com/db/btpwea66k?a=er&rid=${RecordID}`;
     return editURL;
   }
-  // Function to open the QuickBase edit page in a new tab
+  
   function openEditPage(recordID) {
+    // Function to open the QuickBase edit page in a new tab
     var editURL = constructEditURL(recordID);
     window.open(editURL, '_blank');
   }  
+  
+  function filterTicketsByEventType(tickets, role) {
+    // Filter tickets based on the role and var in QB.
+    // QB has a field to filter by -> QB: EventType(Text - Multiple Choice)
+    
+    return tickets.filter(ticket => {
+      switch (role) {
+        
+        //Administrators can see all events
+        case 'Administrator':
+          return true;
+          
+        case 'Participant':
+          return ticket.EventType === 'Gon';
+        
+        case 'Viewer':
+          return ticket.EventType === 'Matt';        
+      }
+    });
+  }
+  
+  /*
+  function filterTicketsByEmail(tickets, email) {
+    // Filter tickets based on the people who clicked
+    
+    return tickets.filter(ticket => {
+      switch (email) {
+        //Add email here (Not safe)
+        case 'gon@hotmail.com':
+          break;
+        case 'test@hotmail.com':
+          break;
+      }
+    });
+  }
+  */
+  
   //#endregion
- 
+  
   //#region InitCalendar
   //Init CDN Full Calendar
   document.addEventListener('DOMContentLoaded', function() {
@@ -388,7 +417,7 @@
     var isEnlargedVisible = false; // Flag to track the visibility of the enlarged element
     var enterTimeout; 
     var leaveTimeout;
-
+  
     calendarEl = document.getElementById('calendar');
 
     // Add event listener for the dark theme button
@@ -398,13 +427,13 @@
 
     function handleEventDrop(info) {
       var ticketID =
-       info.event.extendedProps && info.event.extendedProps.RecordID;
-
+        info.event.extendedProps && info.event.extendedProps.RecordID;
+      
       // If the extendedProps doesn't have RecordID, try to get it from the DOM attribute
       if (!ticketID) {
         var recordIDAttr = info.event.el.getAttribute('data-record-id');
         if (recordIDAttr) {
-            ticketID = recordIDAttr;
+          ticketID = recordIDAttr;
         }
       }
 
@@ -417,26 +446,25 @@
 
       //API Call To update data
       var headers = {
-          'QB-Realm-Hostname': '',
-          'User-Agent': '{User-Agent}',
-          'Authorization': 'QB-USER-TOKEN xxxxxxxxxxxxxx' ,
-          'Content-Type': 'application/json'
+        'QB-Realm-Hostname': 'builderprogram-gcarrasco8152.quickbase.com',
+        'User-Agent': '{User-Agent}',
+        'Authorization': 'QB-USER-TOKEN b8s6k4_qtgt_0_bmhwy65c8k8zjie6tq6ed8826dm' ,
+        'Content-Type': 'application/json'
       };
 
       // Prepare data to make API call and update QB data  
       var updateData = {
-          to: 'btpwea66k',
-          "where": `{3.EX.${ticketID}}`,
-          data: [
-              {
-              '3':  { 'value': ticketID },
-              '11': { 'value': startDate.format('YYYY-MM-DD') },  
-              '13': { 'value': endDate.format('YYYY-MM-DD') }, 
-              '15': { 'value': startTime},
-              '16': { 'value': endTime },
-              }
-          ],
-          fieldsToReturn: [3, 11, 13, 15] 
+        to: 'btpwea66k',
+        "where": `{3.EX.${ticketID}}`,
+        data: [{
+          '3':  { 'value': ticketID },
+          '11': { 'value': startDate.format('YYYY-MM-DD') },  
+          '13': { 'value': endDate.format('YYYY-MM-DD') }, 
+          '15': { 'value': startTime},
+          '16': { 'value': endTime },
+          }
+        ],
+        fieldsToReturn: [3, 11, 13, 15] 
       };
 
       // Log the data to be sent to Quickbase for debugging
@@ -460,9 +488,8 @@
           
       })
       .catch(error => {
-          console.error('Error updating record:', error);
+        console.error('Error updating record:', error);
       });
-  
     }
 
     //Calendar Config
@@ -473,7 +500,7 @@
         handleEventDrop(info);
       },
 
-      //#region DEBUG -> Manually add an event to the calendar
+      //#region DEBUG TEST Only -> Manually add an event to the calendar
       /* events: [
         { // this object will be "parsed" into an Event Object
           title: 'Manual Add TEST ', // a property!
@@ -483,28 +510,37 @@
         }
       ],*/
       //#endregion
-      //plugins: [multiMonthPlugin],
-      initialView: 'dayGridMonth',
       
+      initialView: 'dayGridMonth',
       customButtons: {
         newTicketButton: {
         text: '+ New Ticket',
           click: function() {
             // Tooltip content
             content: 'Create a new ticket in QB', 
-            //TODO
+            // TODO
             //This will need to be handle when change owner/table
             window.open(
-              'https://xxxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxx.quickbase.com/db/btpwea66k/form?a=nwr&originalQid=td&originalqid=td&page=1', '_blank');
+              'https://builderprogram-gcarrasco8152.quickbase.com/db/btpwea66k/form?a=nwr&originalQid=td&originalqid=td&page=1', '_blank');
           }
         }
       },
       
-      //Add New buttons here in (headerToolbar)  
+      //Add New Buttons here in (headerToolbar)  
       headerToolbar: {        
-        left: 'dayGridMonth,timeGridWeek,timeGridDay,listYear, newTicketButton',
+        left: 'timeGridDay,timeGridWeek,dayGridMonth,multiMonthYear,listYear, newTicketButton',
         center: 'title',
         right: 'today prev,next',
+      },
+
+      //Font of New Buttons
+      buttonText: {
+        today: 'Today',
+        month: 'Month',
+        week: 'Week',
+        day: 'Day',
+        listYear: 'List',
+        multiMonthYear: 'Year'
       },
 
       editable: true,
@@ -532,6 +568,7 @@
             <p><strong>Start Time:</strong> ${moment(info.event.start).format('hh:mm A') || 'N/A'}</p>
             <p><strong>End Time:</strong> ${moment(info.event.end).format('hh:mm A') || 'N/A'}</p>
             <p><strong>Phone Number:</strong> ${ticket.PhoneNumber || 'N/A'}</p>
+            <p><strong>Event Type:</strong> ${ticket.EventType || 'N/A'}</p>
             <button id="expand-notes-button">Notes</button>
             <div id="notes-container" style="display: none;">${notes}</div>
             
@@ -546,6 +583,7 @@
           theme: 'light-custom', // Use a custom theme name
           allowHTML: true,
           interactive: true,
+          
           onShow(instance) {
             // Add a click event listener to the "Show Notes" button
             var expandNotesButton = instance.popper.querySelector('#expand-notes-button');
@@ -561,47 +599,6 @@
             }
           }
         });
-
-        //#region (Deprecated) 
-        
-        //Manual Tooltip
-
-        // Check if an enlarged event is already visible, and remove it
-        /*if (isEnlargedVisible && enlargedElement) {
-          enlargedElement.remove();
-          isEnlargedVisible = false;
-        }
-
-        // Create an element to hold the enlarged content
-        enlargedElement = document.createElement('div');
-        enlargedElement.classList.add('enlarged-event');
-        enlargedElement.innerHTML = enlargedContent;
-        
-        // Determine the position of the ticket element within the calendar
-        var ticketElement = info.el; // The DOM element of the ticket
-        var rect = ticketElement.getBoundingClientRect();
-
-        // Position the enlarged element to the right of the ticket element
-        enlargedElement.style.left = rect.right + offsetX + 'px';
-        enlargedElement.style.top = rect.top + offsetY + 'px';
-        // Set the background color with transparency
-        //enlargedElement.style.backgroundColor = 'rgba(255, 255, 255, 0.7)'; // Adjust the last value (0.9) for transparency
-         
-        //var mouseX = info.jsEvent.pageX;
-        //var mouseY = info.jsEvent.pageY;
-        
-        //show box in mouse position + offset 
-        //enlargedElement.style.left = mouseX + offsetX + 'px';   
-        //enlargedElement.style.top = mouseY + offsetY + 'px';
-        
-        // Append the enlarged content to the body or another container
-        //document.body.appendChild(enlargedElement);
-      
-        // Update the flag to indicate that the enlarged element is now visible
-        isEnlargedVisible = true;      
-      //}, 200);
-        */
-      //#endregion
       },
     
       eventMouseLeave: function (info) {
@@ -610,7 +607,7 @@
         //the logic of tooltip automatically.
 
       },
-  
+
       eventClassNames: function(info) {
         //function to calculate the current and late tickets
         //so they are marked with gray for passed event tickets dates
@@ -639,72 +636,72 @@
 
     });
 
-  // Display Tickets in Calendar
-  calendar.setOption('eventContent', function (arg) {
-    var ticket = arg.event.extendedProps || {}; // Get the ticket information, or an empty object if not available
-    var startDate = moment(arg.event.start);
-    var endDate = moment(arg.event.end);
+    // Display Tickets in Calendar
+    calendar.setOption('eventContent', function (arg) {
+      var ticket = arg.event.extendedProps || {}; // Get the ticket information, or an empty object if not available
+      var startDate = moment(arg.event.start);
+      var endDate = moment(arg.event.end);
 
-    var eventDiv = document.createElement('div');
-  
-    // What text we display in Ticket
-    //eventDiv.innerHTML = `${ticket.Name}, ${ticket.EventType}`;
-    eventDiv.innerHTML = `${ticket.Name}`;
+      var eventDiv = document.createElement('div');
     
-    // Apply the same style as the external events
-    eventDiv.classList.add('fc-event-main');
-
-    //Double click on Ticket edit link 
-    eventDiv.addEventListener('dblclick', function (event) {
-      var recordID = ticket.RecordID || this.parentElement.extendedProps.RecordID;
-
-      // Construct the edit URL
-      var editURL = `https://xxxxxxxxxxxxxxxxx-xxxxxxxxxxxxx.quickbase.com/db/btpwea66k?a=er&rid=${recordID}`;
-
-      // Open the edit URL in a new tab
-      window.open(editURL, '_blank');
+      // Format data in Ticket
+      //eventDiv.innerHTML = `${ticket.Name}, ${ticket.EventType}`;
+      eventDiv.innerHTML = `${ticket.Name}`;
       
-    });
+      // Apply the same style as the external events
+      eventDiv.classList.add('fc-event-main');
 
-    //#region "X" Icon     
-    // Create "X" Icon for deletion
-    var deleteIcon = document.createElement('span');
-    deleteIcon.classList.add('delete-icon');
-    deleteIcon.innerHTML = 'x';
-    
-    // Set styling to position the icon to the far right
-    deleteIcon.style.position = 'absolute';
-    deleteIcon.style.right = '5px';
+      //Double click on Ticket edit link 
+      eventDiv.addEventListener('dblclick', function (event) {
+        var recordID = ticket.RecordID || this.parentElement.extendedProps.RecordID;
 
-    // Attach a click event listener to the "X" icon
-    deleteIcon.addEventListener('click', function (event) {
-      //event.stopPropagation(); // Prevent the click event from propagating to the parent
+        // Construct the edit URL
+        var editURL = `https://builderprogram-gcarrasco8152.quickbase.com/db/btpwea66k?a=er&rid=${recordID}`;
+
+        // Open the edit URL in a new tab
+        window.open(editURL, '_blank');
+        
+      });
+
+      //#region "X" Icon     
+      // Create "X" Icon for deletion
+      var deleteIcon = document.createElement('span');
+      deleteIcon.classList.add('delete-icon');
+      deleteIcon.innerHTML = 'x';
       
-      // Get the RecordID from the extendedProps or data attribute
-      var recordID = ticket.RecordID 
-      || this.parentElement.extendedProps.RecordID;
-      
-      var confirmDelete = confirm('Are you sure you want to delete this ticket here and in QB?');
+      // Set styling to position the icon to the far right
+      deleteIcon.style.position = 'absolute';
+      deleteIcon.style.right = '5px';
 
-      if (confirmDelete) {
+      // Attach a click event listener to the "X" icon
+      deleteIcon.addEventListener('click', function (event) {
+        // event.stopPropagation(); // Prevent the click event from propagating to the parent
+        
+        // Get the RecordID from the extendedProps or data attribute
+        var recordID = ticket.RecordID 
+        || this.parentElement.extendedProps.RecordID;
+        
+        var confirmDelete = confirm('Are you sure you want to delete this ticket here and in QB?');
+
+        if (confirmDelete) {
           // Perform the delete operation
-          QB_deleteRecord(recordID);
+          QB_deleteRecord_API(recordID);
           // Remove the event from the calendar
           arg.event.remove();
-      }
+        }
+      });
+      
+      eventDiv.appendChild(deleteIcon);
+      //#endregion
+
+      eventDiv.extendedProps = {
+        RecordID: arg.event.extendedProps.RecordID,
+      };
+
+      return { domNodes: [eventDiv] };
     });
     
-    eventDiv.appendChild(deleteIcon);
-    //#endregion
-
-    eventDiv.extendedProps = {
-      RecordID: arg.event.extendedProps.RecordID,
-    };
-
-    return { domNodes: [eventDiv] };
-  });
-  
-  calendar.render();
+    calendar.render();
       
   });
   
@@ -713,45 +710,27 @@
   </script>
   </head>
     <body>
-        <div id='wrap'>
-          <div id='external-events'>
-            <!--<h4>Scheduler </h4>-->
-            <h4>Scheduler <span id="app-version">v1.3</span></h4>
-            
-            <!--Buttons External List -->
-            <div id='external-events-list'>
-              <button id="toggle-darktheme-button">Dark Theme</button>
+      <div id='wrap'>
+        <div id='external-events'>
+          <!--<h4>Scheduler </h4>-->
+          <h4>Scheduler <span id="app-version">v1.3</span></h4>
+          
+          <!--Buttons External List -->
+          <div id='external-events-list'>
+            <button id="toggle-darktheme-button">Dark Theme</button>
               <!-- <button id="feature-request-button">Feature Request</button> -->
-                <!--<div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'> -->
-                <!-- <div class='fc-event-main'>Debug Event</div> -->
-            </div>
+              <!--<div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'> -->
+              <!-- <div class='fc-event-main'>Debug Event</div> -->
           </div>
         </div>
+      </div>
       
-          <div id='calendar-wrap'>
-            <div id='calendar'></div>
-          </div>
-
-          <!--Feature Request Modal -->
-          <!--this might be better handle in QB side. -->
-          <div id='feature-request-modal' class="modal">
-            <form>
-              <label for="featureName">Name:</label>
-              <input type="text" id="featureName" name="featureName" required>        
-              
-              <label for="featurePriority">Priority:</label>
-              <input type="text" id="featurePriority" name="featurePriority" required>
-
-              <label for="featureDescription">Description:</label>
-              <input type="text" id="featureDescription" name="featureDescription" required>
-
-              <button type="submit">Submit</button>
-              <button type="button" id="close-modal-button">Close</button>
-            </form>
-          </div>
-
-        </div>
+      <div id='calendar-wrap'>
+        <div id='calendar'></div>
+      </div>
+    
     </body>
+
 </html>
 
 
