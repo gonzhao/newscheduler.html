@@ -211,9 +211,9 @@
     // 18: Notes
 
     var headers = {
-      'QB-Realm-Hostname': 'https://builderprogram-gcarrasco8152.quickbase.com',
+      'QB-Realm-Hostname': 'https://builderprogram-xxxxxxxxxxx.quickbase.com',
       'User-Agent': '{User-Agent}',
-      'Authorization': 'QB-USER-TOKEN b8s6k4_qtgt_0_bmhwy65c8k8zjie6tq6ed8826dm',
+      'Authorization': 'QB-USER-TOKEN xxxxxxxxxxxxxxxxx',
       'Content-Type': 'application/json'
     };
 
