@@ -280,9 +280,9 @@
     // Function to delete a record by its ID in Quickbase
     
     var headers = {
-        'QB-Realm-Hostname': 'builderprogram-gcarrasco8152.quickbase.com',
+        'QB-Realm-Hostname': 'xxxxxxxxx-xxxxxxxxxxx.xxxx.com',
         'User-Agent': '{User-Agent}',
-        'Authorization': 'QB-USER-TOKEN b8s6k4_qtgt_0_bmhwy65c8k8zjie6tq6ed8826dm',
+        'Authorization': 'QB-USER-TOKEN xxxxxxxxxxxxxx',
         'Content-Type': 'application/json'
     };
 
@@ -362,7 +362,7 @@
     //This will need update when we move the scheduler
     //needs to point to correct builder, table and recordID 
     //that we want to edit/update
-    var editURL = `https://builderprogram-gcarrasco8152.quickbase.com/db/btpwea66k?a=er&rid=${RecordID}`;
+    var editURL = `https://builderprogram-xxxxxx.quickbase.com/db/btpwea66k?a=er&rid=${RecordID}`;
     return editURL;
   }
   
@@ -446,9 +446,9 @@
 
       //API Call To update data
       var headers = {
-        'QB-Realm-Hostname': 'builderprogram-gcarrasco8152.quickbase.com',
+        'QB-Realm-Hostname': 'builderprogram-xxxxxxxxxxxxx.quickbase.com',
         'User-Agent': '{User-Agent}',
-        'Authorization': 'QB-USER-TOKEN b8s6k4_qtgt_0_bmhwy65c8k8zjie6tq6ed8826dm' ,
+        'Authorization': 'QB-USER-TOKEN xxxxxxxxxxxxxxxxx' ,
         'Content-Type': 'application/json'
       };
 
@@ -521,7 +521,7 @@
             // TODO
             //This will need to be handle when change owner/table
             window.open(
-              'https://builderprogram-gcarrasco8152.quickbase.com/db/btpwea66k/form?a=nwr&originalQid=td&originalqid=td&page=1', '_blank');
+              'https://builderprogram-xxxxxxxx.quickbase.com/db/btpwea66k/form?a=nwr&originalQid=td&originalqid=td&page=1', '_blank');
           }
         }
       },
@@ -656,7 +656,7 @@
         var recordID = ticket.RecordID || this.parentElement.extendedProps.RecordID;
 
         // Construct the edit URL
-        var editURL = `https://builderprogram-gcarrasco8152.quickbase.com/db/btpwea66k?a=er&rid=${recordID}`;
+        var editURL = `https://builderprogram-xxxxxxxxxxxxx.quickbase.com/db/btpwea66k?a=er&rid=${recordID}`;
 
         // Open the edit URL in a new tab
         window.open(editURL, '_blank');
